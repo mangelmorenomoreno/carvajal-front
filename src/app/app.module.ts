@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, withFetch } from '@angular/common/http';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { CreateSuccessComponent } from './create-success/create-success.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { CreateSuccessComponent } from './create-success/create-success.componen
     ProfileComponent,
     PublicationComponent,
     ForgotPasswordComponent,
-    CreateSuccessComponent
+    CreateSuccessComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
