@@ -1,0 +1,51 @@
+<div class="container-fluid d-flex align-items-center justify-content-center"
+    style="min-height: 100vh; background-color: #0D1117;">
+    <div class="login-container">
+        <div class="card text-center" style="width: 22rem;">
+            <div class="card-body">
+                <h3 class="card-title text-white mb-4">Registro de Usuario</h3>
+                <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+                    <div *ngIf="registrationSuccess" class="alert alert-success form-group">
+                        Registro completado con éxito. Se ha enviado un correo electrónico para establecer tu
+                        contraseña.
+                        <p>Serás redirigido a la página de inicio de sesión en {{ countdown }} segundos...</p>
+                    </div>
+                    <div *ngIf="!registrationSuccess" >
+                        <div *ngIf="registrationError" class="alert form-group">
+                            Hubo un error en el registro. 
+                            <p>  el correo electronico ya esta registrado. </p>
+                        </div>
+                        <div *ngIf="validacionDatos" class="alert form-group">
+                            Todos los datos son requeridos
+                        </div>
+                        <div class="form-group">
+                            <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre">
+                            <div *ngIf="registerForm.get('nombre')?.errors?.['required']">Los apellidos son requerido
+                            </div>
+                            <!-- Mensajes de validación -->
+                        </div>
+                        <div class="form-group">
+                            <input type="text" formControlName="apellido" class="form-control" placeholder="Apellidos">
+                            <div *ngIf="registerForm.get('apellido')?.errors?.['required']">Los apellidos son requerido
+                            </div>
+                            <!-- Mensajes de validación -->
+                        </div>
+                        <div class="form-group">
+                            <input type="email" formControlName="correo" class="form-control"
+                                placeholder="Correo Electrónico">
+
+                            <div *ngIf="registerForm.get('correo')?.errors?.['required']">El correo es requerido</div>
+                            <div *ngIf="registerForm.get('correo')?.errors?.['email']">Correo invalido
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                        <button type="button" class="btn btn-link" (click)="navigateToLogin()">Atras</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

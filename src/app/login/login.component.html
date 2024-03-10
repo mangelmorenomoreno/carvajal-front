@@ -1,0 +1,41 @@
+<div class="container-fluid d-flex align-items-center justify-content-center"
+    style="min-height: 100vh; background-color: #0D1117;">
+    <div class="login-container">
+        <div class="card text-center" style="width: 22rem;">
+            <div class="card-body">
+                <h3 class="card-title text-white mb-4">Login</h3>
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <div *ngIf="loginError" class="alert form-group">
+                        El usuario o la contraseña están incorrectos.
+                    </div>
+                    <div *ngIf="loginValidation" class="alert form-group">
+                        El usuario y la Contraseña son requeridos
+                    </div>
+                    <div class="form-group">
+                        <input type="text" formControlName="email" class="form-control"
+                            placeholder="Correo Electronico">
+                        <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+                            class="alert form-group">
+                            <div *ngIf="loginForm.get('email')?.errors?.['required']">El correo es requerido</div>
+                            <div *ngIf="loginForm.get('email')?.errors?.['email']">Correo invalido
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" formControlName="password" class="form-control" placeholder="Contraseña">
+                        <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
+                            class="alert form-group">
+                            <div *ngIf="loginForm.get('password')?.errors?.['required']">Contraseña requerida</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                    <button type="button" class="btn btn-link" (click)="navigateToRegister()">Crear Usuario</button>
+
+                    <!-- Botón para Olvidé Contraseña -->
+                    <button type="button" class="btn btn-link" (click)="navigateToForgotPassword()">Olvidé
+                        Contraseña</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
