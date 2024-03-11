@@ -3,7 +3,7 @@
 <div class="container mt-4">
   <div class="row">
     <!-- Información del Usuario -->
-    <div class="col-md-4">
+    <div class="col-md-3">
       <div class="card" style="width: 100%;">
         <img src="./assets/profile.jpg" class="justify-content-center small-profile-img" alt="Foto de Usuario">
         <div class="card-body">
@@ -18,53 +18,9 @@
     </div>
 
     <!-- Sección de Publicaciones -->
-    <div class="col-md-8">
+    <div class="col-md-9">
       <!-- Aquí empieza la sección de una publicación individual -->
-      <div class="card mb-4">
-        <div class=" scrollable-publish">
-        <div class="card-body">
-          
-            <div class="card mt-4">
-              <div class="card-header">
-                {{ data?.nombre }} {{ data?.apellido }}
-              </div>
-              <div class="card-body">
-              <h5 class="card-title"><p class="card-text">Contenido de la publicación...</p></h5>
-              
-            </div>
-            </div>
-          
-          <!-- Sección de Comentarios -->
-          <div class="card mt-4">
-            <div class="card-body">
-              <h5 class="card-title">Comentarios</h5>
-              <div class="mb-3">
-                <textarea class="form-control" rows="3" placeholder="Escribe un comentario..."></textarea>
-              </div>
-              <button type="button" class="btn btn-primary">Comentar</button>
-              <!-- Comentarios existentes -->
-              <div class=" scrollable-comments">
-              <div class="comment mt-3">
-                <strong>Usuario 1</strong>
-                <p>Este es un comentario existente en la publicación.</p>
-                <button type="button" class="btn btn-link reply-btn">Responder</button>
-                
-                <!-- Respuestas al comentario (comentarios anidados) -->
-                <div class="replies ml-4">
-                  <div class="comment mt-2">
-                    <strong>Usuario 2</strong>
-                    <p>Este es un comentario anidado.</p>
-                    <button type="button" class="btn btn-link reply-btn">Responder</button>
-                  </div>
-                  <!-- Aquí podrías añadir más respuestas -->
-                </div>
-              </div></div>
-            </div>
-          </div>
-          <!-- Fin de Sección de Comentarios -->
-        </div>
-      </div>
-      </div>
+      <publication></publication>
       <!-- Aquí termina la sección de una publicación individual -->
     </div>
   </div>

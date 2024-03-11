@@ -13,7 +13,7 @@ export class RespuestaService {
   
   constructor(private http: HttpClient) { }
 
-  saveComentario(data: any, token: any,): Observable<any> {
+  saveRespuestaComentario(data: any, token: any,): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `${token}`
@@ -21,7 +21,7 @@ export class RespuestaService {
 
     return this.http.post(this.baseUrl, data, { headers: headers });
   }
-  listComentario(token: any): Observable<any> {
+  listRespuestaComentario(token: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `${token}`
@@ -30,16 +30,16 @@ export class RespuestaService {
     return this.http.get(this.baseUrlList, { headers: headers });
   }
 
-  deleteComentario(token: any, commentId: any): Observable<any> {
+  deleteRespuestaComentario(token: any, respuestaId: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `${token}`
     });
 
-    return this.http.post(this.baseUrlEliminar, commentId, { headers: headers });
+    return this.http.post(this.baseUrlEliminar, respuestaId, { headers: headers });
   }
 
-  updateComentario(data: any, token: any,): Observable<any> {
+  updateRespuestaComentario(data: any, token: any,): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `${token}`

@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
 import { PublicacionService } from '../publicacion.service';
 import { ComentarioService } from '../comentario.service';
+import { RespuestaService } from '../respuesta.service';
 import { InfoUserService } from '../info-user.service';
 import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
@@ -19,8 +20,9 @@ export class PublicationComponent implements OnInit {
     contenido: ''
   };
   data: any;
-  listComentarios:any;
+  listComentarios: any;
   userid: any;
+  listRespuestas: any;
   registrationSuccess: boolean = false;
   updateSuccess: boolean = false;
   errorUpdate: boolean = false;
@@ -44,6 +46,7 @@ export class PublicationComponent implements OnInit {
     private formBuilderComentarioi: FormBuilder,
     private formBuilderRespuestai: FormBuilder,
     private publicacionService: PublicacionService,
+    private respuestaService: RespuestaService,
     private comentarioService: ComentarioService,
     private infoUserService: InfoUserService,
     @Inject(PLATFORM_ID) private platformId: Object
@@ -58,7 +61,7 @@ export class PublicationComponent implements OnInit {
       contenido: ['', [Validators.required]],
     });
     this.registrarRespuestaForm = this.formBuilderRespuestai.group({
-      postId: [''],
+      commentId: [''],
       contenido: ['', Validators.required]
     });
 
@@ -97,13 +100,21 @@ export class PublicationComponent implements OnInit {
               console.error('Error ejecutar', error);
             }
           );
+          this.respuestaService.listRespuestaComentario(userv.accessToken).subscribe(
+            response => {
+              if (response.data !== null) {
+
+                this.listRespuestas = response.data;
+
+              }
+            });
           //Ejecuta consulta de comentarios
           this.comentarioService.listComentario(userv.accessToken).subscribe(
             response => {
               if (response.data !== null) {
-               
+
                 this.listComentarios = response.data;
-                
+
 
               } else {
                 this.errorListar = true;
@@ -145,26 +156,64 @@ export class PublicationComponent implements OnInit {
     this.modificarComentario = false;
   }
 
-  registrarRespuesta(commentId:any) :void {
-    this.registrarRespuestaForm.value
+  registrarRespuesta(commentId: any): void {
+    
     const userValue = localStorage.getItem('user');
     if (userValue) {
       const userv = JSON.parse(userValue);
       if (userv && userv.accessToken) {
+        if (this.registrarRespuestaForm.valid) {
+          this.respuestaService.saveRespuestaComentario(this.registrarRespuestaForm.value, userv.accessToken).subscribe(
+            response => {
+              if (response.data === true) {
+                this.respuestaService.listRespuestaComentario(userv.accessToken).subscribe(
+                  response => {
+                    if (response.data !== null) {
 
-
+                      this.listRespuestas = response.data;
+                      this.registrarRespuestaForm.reset();
+                    }
+                  });
+              }
+            });
+        }
       }
     }
   }
 
- cargarRespuesta(commentId:any) :void {
+  cargarRespuesta(commentId: any): void {
     this.registrarRespuestaForm.setValue({
-      postId: commentId,
-      contenido: ''     
+      commentId: commentId,
+      contenido: ''
     });
   }
+  eliminarRespuesta(respuestaId: number) {
+    const userValue = localStorage.getItem('user');
+    if (userValue) {
+      const userv = JSON.parse(userValue);
+      if (userv && userv.accessToken) {
+      
+        this.respuestaService.deleteRespuestaComentario(userv.accessToken, respuestaId).subscribe(
+          response => {
+            if(response.data === true){
 
-  eliminarComentario(commentId: number){
+              this.respuestaService.listRespuestaComentario(userv.accessToken).subscribe(
+                response => {
+                  if (response.data !== null) {
+
+                    this.listRespuestas = response.data;
+
+                  }
+                });
+            }
+          });
+      }
+
+    }
+
+  }
+
+  eliminarComentario(commentId: number) {
     const userValue = localStorage.getItem('user');
     if (userValue) {
       const userv = JSON.parse(userValue);
@@ -193,10 +242,10 @@ export class PublicationComponent implements OnInit {
             this.comentarioService.listComentario(userv.accessToken).subscribe(
               response => {
                 if (response.data !== null) {
-                 
+
                   this.listComentarios = response.data;
-                  
-  
+
+
                 } else {
                   this.errorListar = true;
                   this.succesListar = true;
@@ -209,9 +258,9 @@ export class PublicationComponent implements OnInit {
             );
 
           });
+      }
+    }
   }
-}
-}
 
   eliminarPublicacion(postId: number): void {
     const userValue = localStorage.getItem('user');
@@ -247,10 +296,10 @@ export class PublicationComponent implements OnInit {
               this.comentarioService.listComentario(userv.accessToken).subscribe(
                 response => {
                   if (response.data !== null) {
-                   
+
                     this.listComentarios = response.data;
-                    
-    
+
+
                   } else {
                     this.errorListar = true;
                     this.succesListar = true;
@@ -261,8 +310,8 @@ export class PublicationComponent implements OnInit {
                   console.error('Error ejecutar', error);
                 }
               );
-    
-    
+
+
 
 
             } else {
@@ -291,27 +340,27 @@ export class PublicationComponent implements OnInit {
     if (userValue) {
       const userv = JSON.parse(userValue);
       if (userv && userv.accessToken) {
-       
+
         if (this.registrarComentarioForm.valid) {
           this.comentarioService.saveComentario(this.registrarComentarioForm.value, userv.accessToken).subscribe(
             response => {
               if (response.data === true) {
-                
+
                 this.comentarioService.listComentario(userv.accessToken).subscribe(
                   response => {
                     if (response.data !== null) {
-                      
+
                       this.listComentarios = response.data;
                       this.registrarComentarioForm.reset();
-                      
-                    } 
+
+                    }
                   },
                   error => {
                     this.errorUpdate = true;
                     console.error('Error ejecutar', error);
                   }
                 );
-               
+
               }
             },
             error => {
@@ -322,7 +371,7 @@ export class PublicationComponent implements OnInit {
 
         }
       }
-    }      
+    }
 
 
   }
@@ -355,10 +404,10 @@ export class PublicationComponent implements OnInit {
                 this.comentarioService.listComentario(userv.accessToken).subscribe(
                   response => {
                     if (response.data !== null) {
-                      
+
                       this.listComentarios = response.data;
-                      
-                    } 
+
+                    }
                   },
                   error => {
                     this.errorUpdate = true;
@@ -423,10 +472,10 @@ export class PublicationComponent implements OnInit {
                     this.comentarioService.listComentario(userv.accessToken).subscribe(
                       response => {
                         if (response.data !== null) {
-                          
+
                           this.listComentarios = response.data;
-                          
-                        } 
+
+                        }
                       },
                       error => {
                         this.errorUpdate = true;
