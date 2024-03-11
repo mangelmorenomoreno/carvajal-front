@@ -1,39 +1,36 @@
-<div class="container-fluid d-flex align-items-center justify-content-center"
-    style="min-height: 100vh; background-color: #0D1117;">
-    <div class="login-container">
+<div class="container-fluid d-flex align-items-center justify-content-center" style="height: 100vh;">
+       
+    <div class="login-container" >
         <div class="card text-center" style="width: 22rem;">
             <div class="card-body">
-                <h3 class="card-title text-white mb-4">Login</h3>
+                <h3 class="card-title mb-4">Login</h3>
                 <form [formGroup]="loginForm" (ngSubmit)="login()">
-                    <div *ngIf="loginError" class="alert form-group">
+                    <div *ngIf="loginError" class="alert alert-danger">
                         El usuario o la contraseña están incorrectos.
                     </div>
-                    <div *ngIf="loginValidation" class="alert form-group">
+                    <div *ngIf="loginValidation" class="alert alert-danger">
                         El usuario y la Contraseña son requeridos
                     </div>
-                    <div class="form-group">
-                        <input type="text" formControlName="email" class="form-control"
-                            placeholder="Correo Electronico">
+                    <div class="form-group mb-3"> <!-- Ajustar margen inferior -->
+                        <input type="text" formControlName="email" class="form-control mb-2"  placeholder="Correo Electronico">
                         <div *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
-                            class="alert form-group">
+                            class="alert alert-danger mt-2"> <!-- Ajustar margen superior -->
                             <div *ngIf="loginForm.get('email')?.errors?.['required']">El correo es requerido</div>
-                            <div *ngIf="loginForm.get('email')?.errors?.['email']">Correo invalido
-                            </div>
+                            <div *ngIf="loginForm.get('email')?.errors?.['email']">Correo invalido</div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="password" formControlName="password" class="form-control" placeholder="Contraseña">
+                    <div class="form-group mb-4"> <!-- Ajustar margen inferior -->
+                        <input type="password" formControlName="password" class="form-control mb-2"  placeholder="Contraseña">
                         <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)"
-                            class="alert form-group">
+                            class="alert alert-danger mt-2"> <!-- Ajustar margen superior -->
                             <div *ngIf="loginForm.get('password')?.errors?.['required']">Contraseña requerida</div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                    <button type="button" class="btn btn-link" (click)="navigateToRegister()">Crear Usuario</button>
-
-                    <!-- Botón para Olvidé Contraseña -->
-                    <button type="button" class="btn btn-link" (click)="navigateToForgotPassword()">Olvidé
-                        Contraseña</button>
+                    <button type="submit" class="btn btn-primary btn-block mb-2">Login</button> <!-- Ajustar margen inferior -->
+                    <div class="d-flex justify-content-between"> <!-- Distribuir botones -->
+                        <button type="button" class="btn btn-link" (click)="navigateToRegister()">Crear Usuario</button>
+                        <button type="button" class="btn btn-link" (click)="navigateToForgotPassword()">Olvidé Contraseña</button>
+                    </div>
                 </form>
             </div>
         </div>

@@ -8,6 +8,8 @@ import { UserComponent } from './user/user.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { CreateSuccessComponent } from './create-success/create-success.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,7 +20,9 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'create-success', component: CreateSuccessComponent },
   { path: 'reset-password', component: ResetPasswordComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: 'update-user', component: UpdateUserComponent },
+  { path: 'inicio', component: InicioComponent },
+  { path: '', redirectTo: '/inicio', pathMatch: 'full' }
 ];
 
 @NgModule({

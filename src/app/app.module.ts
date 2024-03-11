@@ -13,6 +13,9 @@ import { HttpClientModule, withFetch } from '@angular/common/http';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { CreateSuccessComponent } from './create-success/create-success.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
+import { InicioComponent } from './inicio/inicio.component';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
     PublicationComponent,
     ForgotPasswordComponent,
     CreateSuccessComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    UpdateUserComponent,
+    InicioComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
