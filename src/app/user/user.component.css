@@ -1,0 +1,13 @@
+.scrollable-comments {
+    max-height: 200px; /* Altura máxima antes de mostrar la barra de desplazamiento */
+    overflow: auto;    /* Muestra una barra de desplazamiento si se necesita */
+  }
+
+  .scrollable-publish {
+    max-height: 550px; /* Altura máxima antes de mostrar la barra de desplazamiento */
+    overflow: auto;    /* Muestra una barra de desplazamiento si se necesita */
+  }
+  .small-profile-img {
+    width: 100px; /* o el tamaño que prefieras */
+    height: auto; /* mantiene la proporción de la imagen */
+}

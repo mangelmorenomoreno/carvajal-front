@@ -1,0 +1,54 @@
+<div class="container-fluid d-flex align-items-center justify-content-center" style="height: 100vh;">
+
+    <div class="login-container">
+        <div class="card text-center" style="width: 22rem;">
+            <div class="card-body">
+                <h3 class="card-title mb-4">Registro de Usuario</h3>
+                <form [formGroup]="registerForm" (ngSubmit)="register()">
+                    <div *ngIf="registerForm.get('nombre')?.errors?.['required']" class="alert  alert-warning">Los nombres son requerido
+                    </div>
+                    <div *ngIf="registrationSuccess" class="alert alert-success form-group">
+                        Registro completado con éxito. Se ha enviado un correo electrónico para establecer tu
+                        contraseña.
+                        <p>Serás redirigido a la página de inicio de sesión en {{ countdown }} segundos...</p>
+                    </div>
+                    <div *ngIf="registerForm.get('correo')?.errors?.['required']" class="alert form-group alert-warning">El correo es requerido</div>
+                    <div *ngIf="registerForm.get('correo')?.errors?.['email']" class="alert form-group alert-danger">Correo invalido
+
+                    </div>
+                    <div *ngIf="registerForm.get('apellido')?.errors?.['required']" class="alert form-group alert-warning">Los apellidos son requerido
+                    </div>
+                    <div *ngIf="!registrationSuccess" >
+                        <div *ngIf="registrationError" class="alert form-group">
+                            Hubo un error en el registro. 
+                            <p>  el correo electronico ya esta registrado. </p>
+                        </div>
+                        <div *ngIf="validacionDatos" class="alert form-group">
+                            Todos los datos son requeridos
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" formControlName="nombre" class="form-control" placeholder="Nombre">
+                            <div class="mb-4"></div>
+                            <!-- Mensajes de validación -->
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="text" formControlName="apellido" class="form-control" placeholder="Apellidos">
+                            <div class="mb-4"></div>
+                            <!-- Mensajes de validación -->
+                        </div>
+                        <div class="form-group mb-2">
+                            <input type="email" formControlName="correo" class="form-control"
+                                placeholder="Correo Electrónico">
+                                <div class="mb-4"></div>
+                           
+                        </div>
+                        <div> <button type="submit" class="btn btn-primary btn-block">Registrar</button></div>
+                       
+                        <button type="button" class="btn btn-link" (click)="navigateToLogin()">Atras</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

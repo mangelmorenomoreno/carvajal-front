@@ -1,0 +1,226 @@
+<div class="container mt-1">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    Crear nueva publicación
+                </div>
+                <div class="card-body">
+                    <form [formGroup]="registerForm" (ngSubmit)="insertPublicacion()">
+
+                        <div *ngIf="registrationSuccess" class="alert alert-success form-group">
+                            Se creo el comentario correctamente
+                            <p>Se actualizara la pagina en {{ countdown }} segundos...</p>
+                        </div>
+                        <div *ngIf="errorUpdate" class="alert  alert-danger form-group">
+                            Error al crear la publicacion
+                        </div>
+                        <div *ngIf="registerForm.get('titulo')?.errors?.['required']" class="alert  alert-warning ">
+                            El titulo es obligatorio
+                        </div>
+                        <div *ngIf="registerForm.get('contenido')?.errors?.['required']" class="alert  alert-warning ">
+                            El contenido es Requerido
+                        </div>
+                        <div class="form-group mt-4 mb-4">
+                            <label for="postTitle">Título de la Publicación</label>
+                            <input type="text" class="form-control" id="titulo" formControlName="titulo"
+                                placeholder="Ingresa el título" required>
+                        </div>
+                        <div class="form-group mt-4 mb-4">
+                            <label for="postContent">Contenido de la Publicación</label>
+                            <textarea class="form-control" id="contenido" rows="3"
+                                placeholder="Escribe el contenido aquí" formControlName="contenido" required></textarea>
+                        </div>
+                        <div class="form-group mt-4 mb-4">
+                            <button type="submit" class="btn btn-primary">Publicar</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div *ngFor="let publicacion of data">
+                <div *ngIf="publicacion.postId===modificarId">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            Modificar publicacion
+                        </div>
+                        <div class="card-body">
+                            <form [formGroup]="modificarForm" (ngSubmit)="updatePublicacion()">
+
+                                <input type="hidden" class="form-control" id="postId" formControlName="postId"
+                                    required />
+
+                                <div class="form-group mt-4 mb-4">
+                                    <label for="postTitle">Título de la Publicación</label>
+                                    <input type="text" class="form-control" id="titulo" formControlName="titulo"
+                                        placeholder="Ingresa el título" required />
+                                </div>
+                                <div class="form-group mt-4 mb-4">
+                                    <label for="postContent">Contenido de la Publicación</label>
+                                    <textarea class="form-control" id="contenido" rows="3"
+                                        placeholder="Escribe el contenido aquí" formControlName="contenido"
+                                        required></textarea>
+                                </div>
+                                <div class="form-group mt-4 mb-4">
+                                    <button type="submit" class="btn btn-primary">Publicar</button>
+                                    <button class="btn btn-outline-danger" (click)="cancelarrPublicacion()" id="modi">
+                                        cancelar </button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="publicacion.postId!==this.modificarId" class="card mb-4">
+
+                    <!-- Cabecera de la tarjeta con el título de la publicación y el autor -->
+                    <div class="card-header">
+                        <div *ngIf="publicacion.usuario.userId === userid" class="no-comments">
+                            <div class="comment-form">
+                                <button class="btn btn-outline-danger" (click)="eliminarPublicacion(publicacion.postId)"
+                                    id="postAuthor">Eliminar</button>
+                                <button class="btn btn-outline-primary"
+                                    (click)="seleccionarPublicacionParaModificar(publicacion)" id="modi"> Modificar
+                                </button>
+                            </div>
+                            <hr>
+                        </div>
+
+
+                        <div class="comment-form">
+
+                            <h2 id="postTitle">{{ publicacion.titulo }} </h2>
+                        </div>
+
+                    </div>
+                    <!-- Cuerpo de la tarjeta con el texto de la publicación -->
+                    <div class="card-body  mb-4">
+                        <div class="mb-4  mt-4">
+                            <h3 id="postContent ">{{ publicacion.contenido }}</h3>
+                        </div>
+
+                        <div class="mb-4 mt-4">
+
+                            <div class="comment-form ">
+
+                                <small>Publicado por <a href="#" id="postAuthor">{{
+                                        publicacion.usuario.correoElectronico }}
+                                    </a></small>
+
+                                <small>{{ publicacion.fechaPublicacion }}</small>
+
+                            </div>
+                        </div>
+
+                        <!-- Formulario para comentar la publicación -->
+                        <form [formGroup]="registrarComentarioForm"
+                            (ngSubmit)="registrarComentario(publicacion.postId)">
+                            <input type="hidden" class="form-control" id="postId" formControlName="postId" />
+                            <input type="hidden" class="form-control" id="commentParentId"
+                                formControlName="commentParentId" />
+                            <div class="comment-form mb-4">
+                                <hr>
+                            </div>
+                            <div class="comment-form mb-4">
+                                <textarea class="form-control" rows="2" id="contenido" formControlName="contenido"
+                                    placeholder="Escribe un comentario..."
+                                    (click)="incializarComentario(publicacion.postId)"></textarea>
+                                <button type="submit" class="btn btn-primary"
+                                    class="btn btn-primary mt-4">Comentar</button>
+                                <hr>
+                            </div>
+
+                        </form>
+
+                        <!-- Sección de comentarios existentes -->
+                        <div id="comments">
+                            comentario
+                            <div class="card-body card  mb-4">
+                                <div id="comments" class="scrollable-comments "
+                                    style="max-height: 300px; overflow-y: scroll;">
+
+                                    <div *ngFor="let comentarios of listComentarios">
+
+                                        <div *ngIf="publicacion.postId===comentarios.publicacion.postId"
+                                            class=" mt-4 mb-4">
+                                            <div class="comment" class="mt-4 mb-4">
+                                                <strong>
+                                                    <a href="#"
+                                                        id="postAuthor">{{comentarios.usuario.correoElectronico}}</a>
+                                                </strong>
+                                                - <small>{{comentarios.fechaComentario}}
+                                                </small>
+                                                <p>{{comentarios.contenido}}</p>
+                                                <div *ngIf="comentarios.usuario.userId === userid" class="no-comments">
+                                                    <!-- Botón para abrir formulario de respuesta -->
+                                                    <button type="button"
+                                                        (click)="eliminarComentario(comentarios.commentId)"
+                                                        class=" btn btn-link reply-btn">Eliminar</button>
+
+                                                </div>
+                                                <form [formGroup]="registrarRespuestaForm"
+                                                    (ngSubmit)="registrarRespuesta(publicacion.postId)">
+                                                    <!-- Formulario para responder a un comentario específico -->
+                                                    <div class="reply-form">
+                                                        <input type="hidden" class="form-control" id="postId"
+                                                            formControlName="postId" />
+                                                        <input type="text" class="form-control"
+                                                            (click)="cargarRespuesta(comentarios.commentId)" rows="2"
+                                                            id="contenido" formControlName="contenido"
+                                                            placeholder="Escribe una respuesta...">
+                                                        <button type="button "
+                                                            class="btn btn-primary mt-2">Responder</button>
+                                                    </div>
+                                                </form>
+
+
+                                                <!-- Sección de respuestas existentes -->
+                                                <div id="comments">
+                                                    Respuestas:
+                                                    <abbr></abbr>
+                                                    <div class="card-body card  mb-4">
+                                                        <div id="comments" class="scrollable-comments "
+                                                            style="max-height: 300px; overflow-y: scroll;">
+
+                                                            <div *ngFor="let respuesta of listRespuestas">
+
+                                                                <div *ngIf="publicacion.postId===respuesta.comentario.publicacion.postId"
+                                                                    class=" mt-4 mb-4">
+                                                                    <div class="comment" class="mt-4 mb-4">
+                                                                        <strong>
+                                                                            <a href="#"
+                                                                                id="postAuthor">{{respuesta.usuario.correoElectronico}}</a>
+                                                                        </strong>
+                                                                        - <small>{{respuesta.fechaRespuesta}}
+                                                                        </small>
+                                                                        <p>{{respuesta.contenido}}</p>
+                                                                        <div *ngIf="respuesta.usuario.userId === userid"
+                                                                            class="no-comments">
+                                                                            <!-- Botón para abrir formulario de respuesta -->
+                                                                            <button type="button"
+                                                                                class=" btn btn-link reply-btn" (click)="eliminarRespuesta(
+                                                                                    respuesta.respuestaId)">Eliminar</button>
+
+                                                                        </div>
+                                                                        <hr>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

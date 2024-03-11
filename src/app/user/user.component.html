@@ -1,0 +1,43 @@
+<app-menu></app-menu>
+
+<div class="container">
+  <div class="row">
+    <!-- Información del Usuario -->
+    <div class="col-md-4">
+      <div class="container mt-">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              Perfil de usuario
+            </div>
+            <div class="card-body">
+
+
+              <div class="">
+                <img src="./assets/profile.jpg" class="justify-content-center small-profile-img" alt="Foto de Usuario">
+                <div class="card-body">
+                  <h5 class="card-title">Nombres</h5>
+                  <p class="card-text">{{ data?.nombre }}</p>
+                  <h5 class="card-title">Apellidos</h5>
+                  <p class="card-text">{{ data?.apellido }}</p>
+                  <h5 class="card-title">Correo</h5>
+                  <p class="card-text">{{ data?.correoElectronico }}</p>
+                </div>
+              </div>
+
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Sección de Publicaciones -->
+    <div class="col-md-8">
+      <!-- Aquí empieza la sección de una publicación individual -->
+      <publication></publication>
+      <!-- Aquí termina la sección de una publicación individual -->
+    </div>
+  </div>
+</div>
