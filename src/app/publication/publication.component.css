@@ -1,0 +1,4 @@
+.scrollable-comments {
+    max-height: 200px; /* Altura máxima antes de mostrar la barra de desplazamiento */
+    overflow: auto;    /* Muestra una barra de desplazamiento si se necesita */
+  }

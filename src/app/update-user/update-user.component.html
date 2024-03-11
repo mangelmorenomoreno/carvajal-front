@@ -1,0 +1,124 @@
+<app-menu></app-menu>
+
+
+<div class="row">
+    <div class="col-md-4  mx-auto">
+        <!-- Aquí empieza la sección de una publicación individual -->
+        <div class="card mb-4">
+
+            <div class="card-body">
+
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            <p class="card-text">Actualizar Informacion</p>
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="container mt-4">
+                            <div *ngIf="!actualizarPasword">
+                            <form [formGroup]="registerForm" (ngSubmit)="updateUserInfo()">
+
+                                <div *ngIf="registrationSuccess" class="alert alert-success form-group">
+                                    Registro completado con éxito.
+                                    <p>Serás redirigido a la página de inicio en {{ countdown }}
+                                        segundos...</p>
+                                </div>
+                                <div *ngIf="!registrationSuccess">
+                                    <div *ngIf="errorUpdate" class="alert alert-danger">
+                                        Hubo un error en el registro.
+                                        <p> el correo electronico ya esta registrado. </p>
+                                    </div>
+                                    <div *ngIf="errorFormulario" class="alert alert-danger">
+                                        Todos los datos son requeridos
+                                    </div>
+                                    <div *ngIf="registerForm.get('nombre')?.errors?.['required']"
+                                        class="alert  alert-warning ">Los apellidos son requerido
+                                    </div>
+                                    <div *ngIf="registerForm.get('apellido')?.errors?.['required']"
+                                        class="alert  alert-warning">Los apellidos son requerido
+                                    </div>
+                                    <div *ngIf="registerForm.get('correo')?.errors?.['required']"
+                                        class="alert form-group alert-warning">El correo es requerido</div>
+                                    <div *ngIf="registerForm.get('correo')?.errors?.['email']"
+                                        class="alert form-group alert-danger">Correo invalido
+
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <input type="text" formControlName="nombre" class="form-control"
+                                            placeholder="Nombre">
+                                        <div class="mb-4"></div>
+                                        <!-- Mensajes de validación -->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" formControlName="apellido" class="form-control"
+                                            placeholder="Apellidos">
+                                        <div class="mb-4"></div>
+                                        <!-- Mensajes de validación -->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="email" formControlName="correo" class="form-control"
+                                            placeholder="Correo Electrónico">
+                                        <div class="mb-4"></div>
+
+                                    </div>
+                                    <div> <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                                    </div>
+
+                                    <button type="button" (click)="changePassword()" class="btn btn-link">Modificar
+                                        Contraseña</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                        <div *ngIf="actualizarPasword">
+                            <form [formGroup]="registerForm2" (ngSubmit)="updatePassword()">
+
+                                <div *ngIf="registrationSuccess" class="alert alert-success form-group">
+                                    Registro completado con éxito.
+                                    <p>Serás redirigido a la página de inicio en {{ countdown }}
+                                        segundos...</p>
+                                </div>
+                                <div *ngIf="!registrationSuccess">
+                                    <div *ngIf="errorUpdate" class="alert alert-danger">
+                                        Hubo un error en el registro.
+                                        <p> el correo electronico ya esta registrado. </p>
+                                    </div>
+                                    <div *ngIf="errorUpdatePasword" class="alert alert-danger">
+                                        Hubo un error en el registro.
+                                        <p> La contraseña ya ha sido usada. </p>
+                                    </div>
+                                    <div *ngIf="errorFormulario" class="alert alert-danger">
+                                        Todos los datos son requeridos
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <input type="password" formControlName="passwordOld" class="form-control"
+                                            placeholder="Registre la contraseña actual">
+                                        <div class="mb-4"></div>
+                                        <!-- Mensajes de validación -->
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" formControlName="passwordNew" class="form-control"
+                                            placeholder="Nueva Contraseña">
+                                        <div class="mb-4"></div>
+                                        <!-- Mensajes de validación -->
+                                    </div>
+
+                                    <div> <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                                    </div>
+
+                                    <button type="button" (click)="changeUser()" class="btn btn-link">Atras</button>
+
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
