@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ComentarioService {
-  private baseUrl: string = 'http://localhost:8000/cavajal/api/v1/comentario/save';
-  private baseUrlList: string = 'http://localhost:8000/cavajal/api/v1/comentario/list';
-  private baseUrlEliminar: string = 'http://localhost:8000/cavajal/api/v1/comentario/delete';
-  private baseUrlModificar: string = 'http://localhost:8000/cavajal/api/v1/comentario/update';
+export class RespuestaService {
+  private baseUrl: string = 'http://localhost:8000/cavajal/api/v1/respuestaComentario/save';
+  private baseUrlList: string = 'http://localhost:8000/cavajal/api/v1/respuestaComentario/list';
+  private baseUrlEliminar: string = 'http://localhost:8000/cavajal/api/v1/respuestaComentario/delete';
+  private baseUrlModificar: string = 'http://localhost:8000/cavajal/api/v1/respuestaComentario/update';
   
   constructor(private http: HttpClient) { }
 

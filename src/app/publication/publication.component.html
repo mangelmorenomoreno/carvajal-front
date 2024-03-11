@@ -119,13 +119,14 @@
                             (ngSubmit)="registrarComentario(publicacion.postId)">
                             <input type="hidden" class="form-control" id="postId" formControlName="postId" />
                             <input type="hidden" class="form-control" id="commentParentId"
-                                formControlName="commentParentId"/>
+                                formControlName="commentParentId" />
                             <div class="comment-form mb-4">
                                 <hr>
                             </div>
                             <div class="comment-form mb-4">
                                 <textarea class="form-control" rows="2" id="contenido" formControlName="contenido"
-                                    placeholder="Escribe un comentario..." (click)="incializarComentario(publicacion.postId)" ></textarea>
+                                    placeholder="Escribe un comentario..."
+                                    (click)="incializarComentario(publicacion.postId)"></textarea>
                                 <button type="submit" class="btn btn-primary"
                                     class="btn btn-primary mt-4">Comentar</button>
                                 <hr>
@@ -138,38 +139,38 @@
                             <div class="card-body card  mb-4">
                                 <div id="comments" class="scrollable-comments "
                                     style="max-height: 300px; overflow-y: scroll;">
-                                    <!-- Bucle para listar comentarios -->
-                                    <!-- <div *ngFor="let comentario of publicacion.comentarios">-->
-                                    <div class="comment">
-                                        <strong><a href="#" id="postAuthor">ejemplocorreoElectronico.com</a></strong>
-                                        - <small>fecha
-                                        </small>
-                                        <p>Contenido de comentario</p>
 
-                                        <!-- Botón para abrir formulario de respuesta -->
-                                        <button type="button" class="btn btn-link reply-btn">Responder</button>
+                                    <div *ngFor="let comentarios of listComentarios">
 
-                                        <!-- Formulario para responder a un comentario específico -->
-                                        <div class="reply-form">
-                                            <textarea class="form-control" rows="2"
-                                                placeholder="Escribe una respuesta..."></textarea>
-                                            <button type="button" class="btn btn-primary mt-2">Enviar Respuesta</button>
-                                        </div>
+                                        <div *ngIf="publicacion.postId===comentarios.publicacion.postId"
+                                            class=" mt-4 mb-4">
+                                            <div class="comment" class="mt-4 mb-4">
+                                                <strong>
+                                                    <a href="#"
+                                                        id="postAuthor">{{comentarios.usuario.correoElectronico}}</a>
+                                                </strong>
+                                                - <small>{{comentarios.fechaComentario}}
+                                                </small>
+                                                <p>{{comentarios.contenido}}</p>
+                                                <div *ngIf="comentarios.usuario.userId === userid" class="no-comments">
+                                                    <!-- Botón para abrir formulario de respuesta -->
+                                                    <button type="button"
+                                                        (click)="eliminarComentario(comentarios.commentId)"
+                                                        class=" btn btn-link reply-btn">Eliminar</button>
 
-                                    </div>
-                                    <div class="comment">
-                                        <strong>ejemplo correoElectronico</strong>
-                                        - <small>fecha</small>
-                                        <p>Contenido de comentario</p>
-
-                                        <!-- Botón para abrir formulario de respuesta -->
-                                        <button type="button" class="btn btn-link reply-btn">Responder</button>
-
-                                        <!-- Formulario para responder a un comentario específico -->
-                                        <div class="reply-form">
-                                            <textarea class="form-control" rows="2"
-                                                placeholder="Escribe una respuesta..."></textarea>
-                                            <button type="button" class="btn btn-primary mt-2">Enviar Respuesta</button>
+                                                </div>
+                                                <form [formGroup]="registrarRespuestaForm"
+                                                    (ngSubmit)="registrarRespuesta(publicacion.postId)">
+                                                    <!-- Formulario para responder a un comentario específico -->
+                                                    <div class="reply-form">
+                                                        <input type="hidden" class="form-control" id="postId" formControlName="postId" />
+                                                        <input type="text" class="form-control"  (click)="cargarRespuesta(comentarios.commentId)" rows="2" id="contenido" formControlName="contenido"
+                                                            placeholder="Escribe una respuesta...">
+                                                        <button type="button " class="btn btn-primary mt-2"
+                                                           >Responder</button>
+                                                    </div>
+                                                </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
