@@ -1,6 +1,6 @@
 # CarvajalFront
 
-CarvajalFront es una aplicación web interactiva que permite a los usuarios comunicarse a través de publicaciones y comentarios en un formato similar al de una red social. Este proyecto está construido con Angular versión 17.2.3 en el frontend y utiliza Spring Boot versión 2.6.3 en el backend, siguiendo una arquitectura hexagonal y de microservicios para lograr modularidad y escalabilidad.
+CarvajalFront es una aplicación web interactiva que permite a los usuarios comunicarse a través de publicaciones y comentarios en un formato similar al de una red social. Este proyecto está construido con Angular versión 17.2.3 y utiliza Spring Boot versión 2.6.3 en el backend, siguiendo una arquitectura hexagonal y de microservicios para lograr modularidad y escalabilidad.
 
 ## Arquitectura de la Aplicación
 
@@ -8,43 +8,29 @@ La aplicación emplea una combinación de arquitectura hexagonal y microservicio
 
 ## Backend
 
-El backend está desarrollado con Spring Boot 2.6.3 y se encarga de las operaciones de lógica de negocio. Para el manejo de correos electrónicos, utilizamos la API de correo de Spring Boot con ActiveMQ.
+El backend, desarrollado con Spring Boot, se encarga de las operaciones de lógica de negocio. Para el manejo de correos electrónicos, se utiliza la API de correo de Spring Boot con ActiveMQ.
 
-### Funcionalidades del Backend:
-- **Spring Boot 2.6.3:** Para la creación de microservicios robustos.
-- **ActiveMQ:** Manejo de colas para el envío de notificaciones por correo electrónico.
-- **PostgreSQL:** Como base de datos para el almacenamiento de datos relacionales.
-- **Testing Backend:** Implementado con Mockito y JUnit para pruebas unitarias.
+### Funcionalidades del Backend
+- **Spring Boot :** Creación de microservicios robustos.
+- **ActiveMQ:** Manejo de colas para envío de notificaciones por correo electrónico.
+- **PostgreSQL:** Base de datos para almacenamiento de datos relacionales.
+- **Testing Backend:** Pruebas unitarias implementadas con Mockito y JUnit.
 
 ## Frontend
 
-El frontend está creado con Angular 17.2.3 y usa Bootstrap para un diseño de interfaz de usuario moderno y adaptable.
+El frontend se ha creado con Angular 17.2.3, empleando Bootstrap para un diseño moderno y adaptable.
 
-### Características del Frontend:
-- **Bootstrap:** Para una interfaz de usuario atractiva y responsiva.
-- **JWT (JSON Web Tokens):** Para la gestión de sesiones y autorización.
+### Características del Frontend
+- **Bootstrap:** Interfaz de usuario atractiva y responsiva.
+- **JWT (JSON Web Tokens):** Gestión de sesiones y autorización.
 
 ## Base de Datos
 
-Elegimos PostgreSQL como sistema de gestión de bases de datos debido a su robustez y características de ACID. El script SQL para la creación de las tablas es el siguiente:
+Se ha elegido PostgreSQL como sistema de gestión de bases de datos por su robustez y características de ACID.
 
-\```sql
----- -- facetime.usuarios definition
+### Script SQL para Crear las Tablas
 
--- Drop table
-
--- DROP TABLE facetime.usuarios;
-
-CREATE TABLE facetime.usuarios (
-	user_id serial4 NOT NULL,
-	nombre varchar(100) NOT NULL,
-	correo_electronico varchar(150) NOT NULL,
-	fecha_creacion timestamptz NULL DEFAULT CURRENT_TIMESTAMP,
-	apellido varchar(100) NULL,
-	estado bool NULL,
-	CONSTRAINT usuarios_correo_electronico_key UNIQUE (correo_electronico),
-	CONSTRAINT usuarios_pkey PRIMARY KEY (user_id)
-);
+```sql
 
 
 -- facetime.credenciales definition
@@ -63,6 +49,11 @@ CREATE TABLE facetime.credenciales (
 	CONSTRAINT fk_usuario FOREIGN KEY (user_id) REFERENCES facetime.usuarios(user_id)
 );
 
+-- Permissions
+
+ALTER TABLE facetime.credenciales OWNER TO postgres;
+GRANT ALL ON TABLE facetime.credenciales TO postgres;
+
 
 -- facetime.publicaciones definition
 
@@ -79,6 +70,11 @@ CREATE TABLE facetime.publicaciones (
 	CONSTRAINT publicaciones_pkey PRIMARY KEY (post_id),
 	CONSTRAINT publicaciones_user_id_fkey FOREIGN KEY (user_id) REFERENCES facetime.usuarios(user_id)
 );
+
+-- Permissions
+
+ALTER TABLE facetime.publicaciones OWNER TO postgres;
+GRANT ALL ON TABLE facetime.publicaciones TO postgres;
 
 
 -- facetime.comentarios definition
@@ -98,6 +94,11 @@ CREATE TABLE facetime.comentarios (
 	CONSTRAINT comentarios_user_id_fkey FOREIGN KEY (user_id) REFERENCES facetime.usuarios(user_id)
 );
 
+-- Permissions
+
+ALTER TABLE facetime.comentarios OWNER TO postgres;
+GRANT ALL ON TABLE facetime.comentarios TO postgres;
+
 
 -- facetime.respuestas_comentarios definition
 
@@ -115,24 +116,30 @@ CREATE TABLE facetime.respuestas_comentarios (
 	CONSTRAINT respuestas_comentarios_comment_id_fkey FOREIGN KEY (comment_id) REFERENCES facetime.comentarios(comment_id),
 	CONSTRAINT respuestas_comentarios_user_id_fkey FOREIGN KEY (user_id) REFERENCES facetime.usuarios(user_id)
 );
---
-\```
 
-## Despliegue
+-- Permissions
+
+ALTER TABLE facetime.respuestas_comentarios OWNER TO postgres;
+GRANT ALL ON TABLE facetime.respuestas_comentarios TO postgres;
+
+```
+### Despliegue
 
 Para desplegar la aplicación, se deben configurar y ejecutar ActiveMQ y PostgreSQL, seguido del despliegue de los microservicios de Spring Boot y la aplicación Angular.
 
-### Pasos para el Despliegue:
-1. Configurar ActiveMQ.
-2. Configurar PostgreSQL con el script SQL proporcionado.
-3. Desplegar los microservicios Spring Boot.
-4. Ejecutar `ng serve` para iniciar la aplicación Angular.
+1. Pasos para el Despliegue
+2. Configurar ActiveMQ.
+3. Configurar PostgreSQL con el script SQL proporcionado.
+4. Desplegar los microservicios Spring Boot.
+4. Ejecutar ng serve para iniciar la aplicación Angular.
+5. Testing
+6. Pruebas unitarias realizadas para el backend con Mockito y JUnit. Pruebas para el frontend en Angular están pendientes.
 
-## Testing
+### Estrategia de Ramificación (GitFlow)
+Se utiliza GitFlow para una gestión de código fuente organizada y eficiente.
 
-Se han realizado pruebas unitarias para el backend con Mockito y JUnit. El frontend en Angular está pendiente de pruebas unitarias.
+### Contribución
+Agradecemos cualquier contribución a nuestro proyecto. Para contribuir, por favor sigue las pautas establecidas en nuestras Directrices de Contribución.
 
-## Estrategia de Ramificación (GitFlow)
-
-Hemos seguido la estrategia de GitFlow, trabajando con ramas `feature`, `dev`, `test`, `staging` y `main` para una gestión de código fuente organizada y eficiente.
-
+### Contacto
+Para preguntas o colaboraciones, contáctanos a través de correo electrónico.
