@@ -31,27 +31,6 @@ Se ha elegido PostgreSQL como sistema de gestión de bases de datos por su robus
 ### Script SQL para Crear las Tablas
 
 ```sql
--- facetime.usuarios definition
-
--- Drop table
-
--- DROP TABLE facetime.usuarios;
-
-CREATE TABLE facetime.usuarios (
-	user_id serial4 NOT NULL,
-	nombre varchar(100) NOT NULL,
-	correo_electronico varchar(150) NOT NULL,
-	fecha_creacion timestamptz NULL DEFAULT CURRENT_TIMESTAMP,
-	apellido varchar(100) NULL,
-	estado bool NULL,
-	CONSTRAINT usuarios_correo_electronico_key UNIQUE (correo_electronico),
-	CONSTRAINT usuarios_pkey PRIMARY KEY (user_id)
-);
-
--- Permissions
-
-ALTER TABLE facetime.usuarios OWNER TO postgres;
-GRANT ALL ON TABLE facetime.usuarios TO postgres;
 
 
 -- facetime.credenciales definition
